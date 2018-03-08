@@ -71,8 +71,6 @@ begin
 end;
 /
 
-66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
-
 -- ################################### JUEGO ###################################
 -- ----------------- TABLA DE JUEGO -----------------
 create table Juego(
@@ -126,6 +124,7 @@ begin
     delete from Juego where codJuego=codJuegoin;
 end;
 /
+
 -- ################################### FICHA ###################################
 -- ----------------- TABLA DE FICHA -----------------
 create table Ficha(
@@ -134,53 +133,54 @@ create table Ficha(
 	valorIzq NUMBER,
 	CONSTRAINTS pkFicha PRIMARY KEY (total)
 );
--- ----------------- INSERTAR PRODUCTO ----------------- 
-CREATE OR REPLACE PROCEDURE insertarProducto(codigo IN Producto.codigo%TYPE, nombreProducto IN Producto.nombreProducto%TYPE, precio IN Producto.precio%TYPE, importado IN Producto.importado%TYPE, nombreTipo IN Producto.nombreTipo%TYPE)
+-- ----------------- INSERTAR FICHA ----------------- 
+CREATE OR REPLACE PROCEDURE insertarFicha(total IN Ficha.total%TYPE, valorDer IN Ficha.valorDer%TYPE, valorIzq IN Ficha.valorIzq%TYPE)
 AS
 BEGIN
-	INSERT INTO Producto VALUES(codigo,nombreProducto,precio,importado,nombreTipo);
+	INSERT INTO Ficha VALUES(codigo,total,valorDer,valorIzq,nombreTipo);
 END;
 /
 
--- ----------------- ACTUALIZAR PRODUCTO ----------------- 
-CREATE OR REPLACE PROCEDURE actualizarProducto(nombreProductoin IN Producto.nombreProducto%TYPE, precioin IN Producto.precio%TYPE,importadoin IN Producto.importado%TYPE)
+-- ----------------- ACTUALIZAR FICHA ----------------- 
+CREATE OR REPLACE PROCEDURE actualizarFicha(totalin IN Ficha.total%TYPE, valorDerin IN Ficha.valorDer%TYPE,valorIzqin IN Ficha.valorIzq%TYPE)
 AS
 BEGIN
-	UPDATE Producto SET precio=precioin,importado=importadoin WHERE nombreProducto=nombreProductoin;
+	UPDATE Ficha SET valorDer=valorDerin,valorIzq=valorIzqin WHERE total=totalin;
 END;
 /
 
--- ----------------- BUSCAR PRODUCTO ----------------- 
-CREATE OR REPLACE FUNCTION buscarProducto(nombreProductoin IN Producto.nombreProducto%TYPE)
+-- ----------------- BUSCAR FICHA ----------------- 
+CREATE OR REPLACE FUNCTION buscarFicha(totalin IN Ficha.total%TYPE)
 RETURN Types.ref_cursor 
 AS 
-        producto_cursor types.ref_cursor; 
+        Ficha_cursor types.ref_cursor; 
 BEGIN 
-  OPEN producto_cursor FOR 
-       SELECT * FROM Producto WHERE nombreProducto=nombreProductoin; 
-RETURN producto_cursor; 
+  OPEN Ficha_cursor FOR 
+       SELECT * FROM Ficha WHERE total=totalin; 
+RETURN Ficha_cursor; 
 END;
 /
 
--- ----------------- LISTAR PRODUCTO ----------------- 
-CREATE OR REPLACE FUNCTION listarProducto
+-- ----------------- LISTAR FICHA ----------------- 
+CREATE OR REPLACE FUNCTION listarFicha
 RETURN Types.ref_cursor 
 AS 
-        producto_cursor types.ref_cursor; 
+        Ficha_cursor types.ref_cursor; 
 BEGIN 
-  OPEN producto_cursor FOR 
-       SELECT * FROM Producto ; 
-RETURN producto_cursor; 
+  OPEN Ficha_cursor FOR 
+       SELECT * FROM Ficha ; 
+RETURN Ficha_cursor; 
 END;
 /
 
--- ----------------- ELIMINAR PRODUCTO ----------------- 
-create or replace procedure eliminarProducto(nombreProductoin IN Producto.nombreProducto%TYPE)
+-- ----------------- ELIMINAR FICHA ----------------- 
+create or replace procedure eliminarFicha(totalin IN Ficha.total%TYPE)
 as
 begin
-    delete from Producto where nombreProducto=nombreProductoin;
+    delete from Ficha where total=totalin;
 end;
 /
+
 -- ################################### JUGADOR-JUEGO ###################################
 -- ----------------- TABLA DE JUGADOR-JUEGO -----------------
 create table JugadorJuego(
@@ -210,12 +210,12 @@ create table JugadorFicha(
 -- PRUEBAS NO EJECUTAR
 
 -- -----------------  DROPS -----------------
-DROP PROCEDURE insertarProducto;
-DROP PROCEDURE actualizarProducto;
-DROP FUNCTION buscarProducto;
-DROP FUNCTION listarProducto;
-DROP PROCEDURE eliminarProducto;
-DROP TABLE Producto;
+DROP PROCEDURE ;
+DROP PROCEDURE ;
+DROP FUNCTION ;
+DROP FUNCTION ;
+DROP PROCEDURE ;
+DROP TABLE ;
 DROP PACKAGE types;
 DROP USER servidor CASCADE; 
 
