@@ -53,7 +53,7 @@ public class ServidorHilo extends Thread {
 		try {
 			jugador = (Jugador) ois.readObject();
 			if(jugador != null){
-                                jugador.setNickName("banano en leche");
+                                //jugador.setNickName("banano en leche");
 				oos.writeObject(jugador);
 			}
                         ois.close();

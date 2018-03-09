@@ -73,7 +73,7 @@ end;
 -- ----------------- TABLA DE JUGADOR -----------------
 create table Jugador(
 	nickname VARCHAR(9), 
-	puntos NUMBER,
+	puntos INT,
         codJuego VARCHAR(9), 
 	CONSTRAINTS pkJugador PRIMARY KEY (nickname),
         CONSTRAINT fkJuego FOREIGN KEY (codJuego) REFERENCES Juego(codJuego)
@@ -130,9 +130,9 @@ end;
 -- ################################### FICHA ###################################
 -- ----------------- TABLA DE FICHA -----------------
 create table Ficha(
-	total NUMBER, 
-	valorDer NUMBER, 
-	valorIzq NUMBER,
+	total INT, 
+	valorDer INT, 
+	valorIzq INT,
 	CONSTRAINTS pkFicha PRIMARY KEY (total)
 );
 -- ----------------- INSERTAR FICHA ----------------- 
@@ -187,7 +187,7 @@ end;
 -- ----------------- TABLA DE JUGADOR-FICHA -----------------
 create table JugadorFicha(
 	nickname VARCHAR(9), 
-	total NUMBER
+	total INT
 );
 -- ----------------- BUSCAR FICHAS-JUGADOR ----------------- 
 CREATE OR REPLACE FUNCTION buscarFichaJugador(nicknamein IN JugadorFicha.nickname%TYPE)
