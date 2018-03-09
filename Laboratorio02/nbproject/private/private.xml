@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/ServicioJugador.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Jugador.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/ServicioJuego.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/Servicio.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Ficha.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/ServicioFicha.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/Server/Servidor.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/GestorBD/ScriptDomino.sql</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/NoDataException.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Juego.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/GlobalException.java</file>
+            <file>file:/C:/Users/Giancarlo/Documents/GitHub/Lab02/Laboratorio02/src/Server/ServidorHilo.java</file>
+        </group>
     </open-files>
 </project-private>

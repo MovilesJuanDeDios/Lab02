@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ClientManager;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
 import java.util.logging.*;
-/**
- *
- * @author casca
- */
+
 public class GestorCliente extends Thread {
 	protected Socket sk;
 	protected DataOutputStream dos;

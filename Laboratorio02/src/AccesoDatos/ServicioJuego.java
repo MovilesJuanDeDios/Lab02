@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package AccesoDatos;
 
 import LogicaNegocio.Juego;
@@ -14,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import oracle.jdbc.internal.OracleTypes;
 
-/**
- *
- * @author casca
- */
 public class ServicioJuego extends Servicio {
 
     private static final String INSERTAJUEGO = "{call insertarJuego(?,?,?,?,?)}";
