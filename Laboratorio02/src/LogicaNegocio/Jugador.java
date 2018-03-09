@@ -6,11 +6,13 @@ public class Jugador {
     public Jugador(){
         this.nickName = "";
         this.puntaje = 0;
+        this.juego = "";
     }
 
-    public Jugador(String nickName, int puntaje) {
+    public Jugador(String nickName, int puntaje, String juego) {
         this.nickName = nickName;
         this.puntaje = puntaje;
+        this.juego = juego;
     }   
 
     public void setNickName(String nickName) {
@@ -21,12 +23,20 @@ public class Jugador {
         this.puntaje = puntaje;
     }
 
+    public void setJuego(String juego) {
+        this.juego = juego;
+    }
+    
     public String getNickName() {
         return nickName;
     }
 
     public int getPuntaje() {
         return puntaje;
+    }
+    
+    public String getJuego() {
+        return juego;
     }
     
     public static String[] nombreCampos(){
@@ -48,4 +58,10 @@ public class Jugador {
     private static final String[] NOMBRE_CAMPOS = {"Nick Name", "Puntaje"};
     private String nickName;
     private int puntaje;
+
+    public static String[] getNOMBRE_CAMPOS() {
+        return NOMBRE_CAMPOS;
+    }
+
+    private String juego;
 }
