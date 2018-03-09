@@ -15,62 +15,6 @@ AS
 END;
 /
 
--- ################################### JUGADOR ###################################
--- ----------------- TABLA DE JUGADOR -----------------
-create table Jugador(
-	nickname VARCHAR(9), 
-	puntos NUMBER,
-	CONSTRAINTS pkJugador PRIMARY KEY (nickname)
-);
-
--- ----------------- INSERTAR JUGADOR ----------------- 
-CREATE OR REPLACE PROCEDURE insertarJugador(nickname IN Jugador.nickname%TYPE, puntos IN Jugador.puntos%TYPE)
-AS
-BEGIN
-	INSERT INTO Jugador VALUES(codigo,nickname,puntos,importado,nombreTipo);
-END;
-/
-
--- ----------------- ACTUALIZAR JUGADOR ----------------- 
-CREATE OR REPLACE PROCEDURE actualizarJugador(nicknamein IN Jugador.nickname%TYPE, puntosin IN Jugador.puntos%TYPE)
-AS
-BEGIN
-	UPDATE Jugador SET puntos=puntosin,importado=importadoin WHERE nickname=nicknamein;
-END;
-/
-
--- ----------------- BUSCAR JUGADOR ----------------- 
-CREATE OR REPLACE FUNCTION buscarJugador(nicknamein IN Jugador.nickname%TYPE)
-RETURN Types.ref_cursor 
-AS 
-        Jugador_cursor types.ref_cursor; 
-BEGIN 
-  OPEN Jugador_cursor FOR 
-       SELECT * FROM Jugador WHERE nickname=nicknamein; 
-RETURN Jugador_cursor; 
-END;
-/
-
--- ----------------- LISTAR JUGADOR ----------------- 
-CREATE OR REPLACE FUNCTION listarJugador
-RETURN Types.ref_cursor 
-AS 
-        Jugador_cursor types.ref_cursor; 
-BEGIN 
-  OPEN Jugador_cursor FOR 
-       SELECT * FROM Jugador ; 
-RETURN Jugador_cursor; 
-END;
-/
-
--- ----------------- ELIMINAR JUGADOR ----------------- 
-create or replace procedure eliminarJugador(nicknamein IN Jugador.nickname%TYPE)
-as
-begin
-    delete from Jugador where nickname=nicknamein;
-end;
-/
-
 -- ################################### JUEGO ###################################
 -- ----------------- TABLA DE JUEGO -----------------
 create table Juego(
@@ -125,6 +69,64 @@ begin
 end;
 /
 
+-- ################################### JUGADOR ###################################
+-- ----------------- TABLA DE JUGADOR -----------------
+create table Jugador(
+	nickname VARCHAR(9), 
+	puntos NUMBER,
+        codJuego VARCHAR(9), 
+	CONSTRAINTS pkJugador PRIMARY KEY (nickname),
+        CONSTRAINT fkJuego FOREIGN KEY (codJuego) REFERENCES Juego(codJuego)
+);
+
+-- ----------------- INSERTAR JUGADOR ----------------- 
+CREATE OR REPLACE PROCEDURE insertarJugador(nickname IN Jugador.nickname%TYPE, puntos IN Jugador.puntos%TYPE,codJuego IN Jugador.codJuego%TYPE)
+AS
+BEGIN
+	INSERT INTO Jugador VALUES(nickname,puntos,codJuego);
+END;
+/
+
+-- ----------------- ACTUALIZAR JUGADOR ----------------- 
+CREATE OR REPLACE PROCEDURE actualizarJugador(nicknamein IN Jugador.nickname%TYPE, puntosin IN Jugador.puntos%TYPE, codJuegoin IN Jugador.codJuego%TYPE)
+AS
+BEGIN
+	UPDATE Jugador SET puntos=puntosin,codJuego=codJuegoin WHERE nickname=nicknamein;
+END;
+/
+
+-- ----------------- BUSCAR JUGADOR ----------------- 
+CREATE OR REPLACE FUNCTION buscarJugador(codJuegoin IN Jugador.codJuego%TYPE)
+RETURN Types.ref_cursor 
+AS 
+        Jugador_cursor types.ref_cursor; 
+BEGIN 
+  OPEN Jugador_cursor FOR 
+       SELECT * FROM Jugador WHERE codJuego=codJuegoin; 
+RETURN Jugador_cursor; 
+END;
+/
+
+-- ----------------- LISTAR JUGADOR ----------------- 
+CREATE OR REPLACE FUNCTION listarJugador
+RETURN Types.ref_cursor 
+AS 
+        Jugador_cursor types.ref_cursor; 
+BEGIN 
+  OPEN Jugador_cursor FOR 
+       SELECT * FROM Jugador ; 
+RETURN Jugador_cursor; 
+END;
+/
+
+-- ----------------- ELIMINAR JUGADOR ----------------- 
+create or replace procedure eliminarJugador(nicknamein IN Jugador.nickname%TYPE)
+as
+begin
+    delete from Jugador where nickname=nicknamein;
+end;
+/
+
 -- ################################### FICHA ###################################
 -- ----------------- TABLA DE FICHA -----------------
 create table Ficha(
@@ -137,7 +139,7 @@ create table Ficha(
 CREATE OR REPLACE PROCEDURE insertarFicha(total IN Ficha.total%TYPE, valorDer IN Ficha.valorDer%TYPE, valorIzq IN Ficha.valorIzq%TYPE)
 AS
 BEGIN
-	INSERT INTO Ficha VALUES(codigo,total,valorDer,valorIzq,nombreTipo);
+	INSERT INTO Ficha VALUES(total,valorDer,valorIzq);
 END;
 /
 
@@ -181,27 +183,23 @@ begin
 end;
 /
 
--- ################################### JUGADOR-JUEGO ###################################
--- ----------------- TABLA DE JUGADOR-JUEGO -----------------
-create table JugadorJuego(
-	nickname VARCHAR(9), 
-	codJuego VARCHAR(9),
-	CONSTRAINTS pkJugadorJuego PRIMARY KEY (codigo)
-);
--- ################################### FICHA-JUEGO ###################################
--- ----------------- TABLA DE FICHA-JUEGO -----------------
-create table FichaJuego(
-	total NUMBER, 
-	codJuego VARCHAR(9),
-	CONSTRAINTS pkFichaJuego PRIMARY KEY (codigo)
-);
 -- ################################### JUGADOR-FICHA ###################################
 -- ----------------- TABLA DE JUGADOR-FICHA -----------------
 create table JugadorFicha(
 	nickname VARCHAR(9), 
-	total NUMBER,
-	CONSTRAINTS pkJugadorFicha PRIMARY KEY (codigo)
+	total NUMBER
 );
+-- ----------------- BUSCAR FICHAS-JUGADOR ----------------- 
+CREATE OR REPLACE FUNCTION buscarFichaJugador(nicknamein IN JugadorFicha.nickname%TYPE)
+RETURN Types.ref_cursor 
+AS 
+        JugadorFicha_cursor types.ref_cursor; 
+BEGIN 
+  OPEN JugadorFicha_cursor FOR 
+       SELECT total FROM JugadorFicha WHERE nickname=nicknamein; 
+RETURN JugadorFicha_cursor; 
+END;
+/
 
 
 
