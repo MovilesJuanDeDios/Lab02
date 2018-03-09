@@ -5,9 +5,9 @@
  */
 package ClientManager;
 
+import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
 import java.util.logging.*;
 /**
  *
@@ -15,28 +15,45 @@ import java.util.logging.*;
  */
 public class GestorCliente extends Thread {
 	protected Socket sk;
+        
 	protected DataOutputStream dos;
 	protected DataInputStream dis;
-	private int id;
-	public GestorCliente(int id) {
-		this.id = id;
+        
+        protected ObjectOutputStream oos;
+	protected ObjectInputStream ois;
+        
+	public GestorCliente() {
 		}
 		@Override
 		public void run() {
 		try {
+                        Jugador jugador = new Jugador("XXX", 2);
+                        System.out.println("Nombre: " + jugador.getNickName());
 			sk = new Socket("127.0.0.1", 10578);
+                        
 			dos = new DataOutputStream(sk.getOutputStream());
 			dis = new DataInputStream(sk.getInputStream());
-			System.out.println(id + " envía saludo");
-			dos.writeUTF("hola");
-			String respuesta="";
-			respuesta = dis.readUTF();
-			System.out.println(id + " Servidor devuelve saludo: " + respuesta);
+                        
+                        oos = new ObjectOutputStream(sk.getOutputStream());
+			ois = new ObjectInputStream(sk.getInputStream());
+                       
+			oos.writeObject(jugador);
+			
+                        jugador = (Jugador)ois.readObject();
+			
+			System.out.println("Servidor devuelve: " + jugador.toString());
+                        
 			dis.close();
 			dos.close();
+                        
+                        oos.close();
+                        ois.close();
+                        
 			sk.close();
 		} catch (IOException ex) {
 			Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		} catch (ClassNotFoundException ex) {
+                Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 }

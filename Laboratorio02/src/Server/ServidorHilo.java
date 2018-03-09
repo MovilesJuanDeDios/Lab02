@@ -9,14 +9,20 @@ package Server;
  *
  * @author casca
  */
+import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.*;
 import java.util.logging.*;
 public class ServidorHilo extends Thread {
 	
 	private Socket socket;
+        
 	private DataOutputStream dos;
 	private DataInputStream dis;
+        
+        private ObjectOutputStream oos;
+        private ObjectInputStream ois;
+        
 	private int idSessio;
 	
 	public ServidorHilo(Socket socket, int id) {
@@ -25,6 +31,10 @@ public class ServidorHilo extends Thread {
 		try {
 			dos = new DataOutputStream(socket.getOutputStream());
 			dis = new DataInputStream(socket.getInputStream());
+                        
+                        oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
+                        
 		} catch (IOException ex) {
 			Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -39,16 +49,20 @@ public class ServidorHilo extends Thread {
 	}
 	@Override
 		public void run() {
-		String accion = "";
+		Jugador jugador;
 		try {
-			accion = dis.readUTF();
-			if(accion.equals("hola")){
-				System.out.println("El cliente con idSesion "+this.idSessio+" saluda");
-				dos.writeUTF("adios");
+			jugador = (Jugador) ois.readObject();
+			if(jugador != null){
+                                jugador.setNickName("banano en leche");
+				oos.writeObject(jugador);
 			}
+                        ois.close();
+                        oos.close();
 		} catch (IOException ex) {
 			Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		} catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
+            }
 		desconectar();
 	}
 }
