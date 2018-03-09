@@ -12,9 +12,10 @@ import oracle.jdbc.internal.OracleTypes;
 
 public class ServicioJugador extends Servicio {
 
-    private static final String INSERTAJUGADOR = "{call insertarJugador(?,?,?,?,?)}";
+    private static final String INSERTAJUGADOR = "{call insertarJugador(?,?,?)}";
     private static final String LISTARJUGADOR = "{?=call listarJugador()}";
     private static final String BUSCARJUGADOR = "{?=call buscarJugador(?)}";
+    private static final String BUSCARFICHAJUGADOR = "{?=call buscarFichaJugador(?)}";
     private static final String ACTUALIZARJUGADOR = "{call actualizarJugador(?,?,?)}";
     private static final String ELIMINARJUGADOR = "{call eliminarJugador(?)}";
 
@@ -30,6 +31,7 @@ public class ServicioJugador extends Servicio {
             pstmt = cn.prepareCall(INSERTAJUGADOR);
             pstmt.setString(1, jugador.getNickName());
             pstmt.setInt(2, jugador.getPuntaje());
+            pstmt.setString(3, jugador.getJuego());
 
             boolean resultado = pstmt.execute();
 
@@ -68,7 +70,8 @@ public class ServicioJugador extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 jugador = new Jugador(rs.getString("nickname"),
-                        rs.getInt("puntos"));
+                        rs.getInt("puntos"),
+                        rs.getString("codJuego"));
                 coleccion.add(jugador);
             }
         } catch (SQLException e) {
@@ -95,7 +98,7 @@ public class ServicioJugador extends Servicio {
         return coleccion;
     }
 
-    public Jugador buscarJugador(String nombre) throws GlobalException, NoDataException, SQLException {
+    public Jugador buscarJugador(String juego) throws GlobalException, NoDataException, SQLException {
         connect();
 
         ResultSet rs = null;
@@ -104,12 +107,13 @@ public class ServicioJugador extends Servicio {
         try {
             pstmt = cn.prepareCall(BUSCARJUGADOR);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
-            pstmt.setString(2, nombre);
+            pstmt.setString(2, juego);
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 jugador = new Jugador(rs.getString("nickname"),
-                        rs.getInt("puntos"));
+                        rs.getInt("puntos"),
+                        rs.getString("codJuego"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,6 +139,47 @@ public class ServicioJugador extends Servicio {
         return jugador;
     }
 
+    public ArrayList buscarFichaJugador(String nombre) throws GlobalException, NoDataException, SQLException {
+        connect();
+
+        ResultSet rs = null;
+        ArrayList coleccion = new ArrayList();
+        int valor=0;
+        CallableStatement pstmt = null;
+        try {
+            pstmt = cn.prepareCall(BUSCARFICHAJUGADOR);
+            pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, nombre);
+            pstmt.execute();
+            rs = (ResultSet) pstmt.getObject(1);
+            while (rs.next()) {
+                valor=rs.getInt("total");
+                coleccion.add(valor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            throw new GlobalException("Sentencia no valida");
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                disconnect();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+        if (valor == 0) {
+            throw new NoDataException("No hay datos");
+        }
+        System.out.print(coleccion.toString());
+        return coleccion;
+    }    
+    
     public void actualizarJugador(Jugador jugador) throws GlobalException, NoDataException, SQLException {
         connect();
         PreparedStatement pstmt = null;
@@ -142,6 +187,7 @@ public class ServicioJugador extends Servicio {
             pstmt = cn.prepareStatement(ACTUALIZARJUGADOR);
             pstmt.setString(1, jugador.getNickName());
             pstmt.setInt(2, jugador.getPuntaje());
+            pstmt.setString(3, jugador.getJuego());
             
             boolean resultado = pstmt.execute();
 
