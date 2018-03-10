@@ -27,18 +27,75 @@ public class GestorCliente extends Thread {
     private String nombre;
     private int puntaje;
     private String juego;
-
+    private int estado;
+    
     public GestorCliente(String nombre, int puntaje, String juego) {
         this.nombre = nombre;
         this.puntaje = puntaje;
         this.juego = juego;
-           
+        this.estado = 1;
+    }
+    
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+    
+    public void ingresarJugador() {
+        try {
+            ServicioJugador sj = new ServicioJugador();
+            Jugador jugador = new Jugador(nombre, puntaje, juego);
+            //sj.insertarJugador(jugador);
+            System.out.println("Nombre: " + jugador.getNickName());
+            sk = new Socket("127.0.0.1", 10578);
+
+            dos = new DataOutputStream(sk.getOutputStream());
+            dis = new DataInputStream(sk.getInputStream());
+            
+            oos = new ObjectOutputStream(sk.getOutputStream());
+            ois = new ObjectInputStream(sk.getInputStream());
+
+            oos.writeObject(jugador);
+
+            jugador = (Jugador) ois.readObject();
+
+            System.out.println("Servidor devuelve: " + jugador.toString());
+
+            dis.close();
+            dos.close();
+            
+            oos.close();
+            ois.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } /*catch (GlobalException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoDataException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 
     @Override
     public void run() {
         try {
-            ServicioJugador sj = new ServicioJugador();
+            //sk = new Socket("127.0.0.1", 10578);
+
+            switch (estado) {
+                case 1:
+                    ingresarJugador();
+                    break;
+                default:
+                    break;
+            }
+            /*ServicioJugador sj = new ServicioJugador();
             Jugador jugador = new Jugador(nombre, puntaje, juego);
             sj.insertarJugador(jugador);
             System.out.println("Nombre: " + jugador.getNickName());
@@ -61,11 +118,11 @@ public class GestorCliente extends Thread {
 
             oos.close();
             ois.close();
-
+             */
             sk.close();
         } catch (IOException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } /*catch (ClassNotFoundException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GlobalException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,6 +130,6 @@ public class GestorCliente extends Thread {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  */      
     }
 }
