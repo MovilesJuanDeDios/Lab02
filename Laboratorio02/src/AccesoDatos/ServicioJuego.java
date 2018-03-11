@@ -22,13 +22,13 @@ public class ServicioJuego extends Servicio {
 
     }
 
-    public void insertarJuego(Juego jugador) throws GlobalException, NoDataException, SQLException {
+    public void insertarJuego(Juego juego) throws GlobalException, NoDataException, SQLException {
         connect();
         CallableStatement pstmt = null;
 
         try {
             pstmt = cn.prepareCall(INSERTAJUEGO);
-            pstmt.setString(1, jugador.getCodigo());
+            pstmt.setString(1, juego.getCodigo());
 
             boolean resultado = pstmt.execute();
 
@@ -58,7 +58,7 @@ public class ServicioJuego extends Servicio {
 
         ResultSet rs = null;
         ArrayList coleccion = new ArrayList();
-        Juego jugador = null;
+        Juego juego = null;
         CallableStatement pstmt = null;
         try {
             pstmt = cn.prepareCall(LISTARJUEGO);
@@ -66,8 +66,8 @@ public class ServicioJuego extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                jugador = new Juego(rs.getString("codJuego"));
-                coleccion.add(jugador);
+                juego = new Juego(rs.getString("codJuego"));
+                coleccion.add(juego);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public class ServicioJuego extends Servicio {
         connect();
 
         ResultSet rs = null;
-        Juego jugador = null;
+        Juego juego = null;
         CallableStatement pstmt = null;
         try {
             pstmt = cn.prepareCall(BUSCARJUEGO);
@@ -106,7 +106,7 @@ public class ServicioJuego extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                jugador = new Juego(rs.getString("codJuego"));
+                juego = new Juego(rs.getString("codJuego"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,19 +125,19 @@ public class ServicioJuego extends Servicio {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        if (jugador == null) {
+        if (juego == null) {
             throw new NoDataException("No hay datos");
         }
-        System.out.print(jugador.toString());
-        return jugador;
+        System.out.print(juego.toString());
+        return juego;
     }
 
-    public void actualizarJuego(Juego jugador) throws GlobalException, NoDataException, SQLException {
+    public void actualizarJuego(Juego juego) throws GlobalException, NoDataException, SQLException {
         connect();
         PreparedStatement pstmt = null;
         try {
             pstmt = cn.prepareStatement(ACTUALIZARJUEGO);
-            pstmt.setString(1, jugador.getCodigo());
+            pstmt.setString(1, juego.getCodigo());
             
             boolean resultado = pstmt.execute();
 

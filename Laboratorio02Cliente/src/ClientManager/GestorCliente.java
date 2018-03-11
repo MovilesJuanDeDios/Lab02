@@ -4,6 +4,8 @@ package ClientManager;
 import AccesoDatos.GlobalException;
 import AccesoDatos.NoDataException;
 import AccesoDatos.ServicioJugador;
+import LogicaNegocio.Ficha;
+import LogicaNegocio.Juego;
 import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.ServerSocket;
@@ -17,25 +19,27 @@ import java.util.logging.*;
  */
 public class GestorCliente extends Thread {
 
+    // SOCKETS
     protected Socket socket2et;
     protected Socket socket2;
     protected ServerSocket serSock;
 
-
+    // MENSAJES
     protected DataOutputStream dos;
     protected DataInputStream dis;
 
+    //OBJETOS
     protected ObjectOutputStream oos;
     protected ObjectInputStream ois;
 
-    private boolean flag = true;
-
+    
     public GestorCliente() {
         Thread hilo=new Thread(this);
         hilo.start();
     }
 
-    public void ingresarJugador(Jugador jug) {
+    /* ----------------------------- METODOS DE JUGADOR ----------------------------- */
+    public void enviarJugador(Jugador jug,String accion) {
         try {
             Jugador jugador = jug;
             System.out.println("Nombre: " + jugador.getNickName());
@@ -48,7 +52,39 @@ public class GestorCliente extends Thread {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /* ----------------------------- METODOS DE JUEGO ----------------------------- */
+    public void enviarJuego(Juego jug,String accion) {
+        try {
+            Juego juego = jug;
+            System.out.println("Nombre: " + juego.getCodigo());
+            socket2et = new Socket("127.0.0.1", 10578);
+            oos = new ObjectOutputStream(socket2et.getOutputStream());
+            oos.writeObject(juego);
+            oos.close();
+            socket2et.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
+
+    /* ----------------------------- METODOS DE FICHA ----------------------------- */
+    public void enviarFicha(Ficha fich) {
+        try {
+            Ficha ficha = fich;
+            System.out.println("Nombre: " + ficha.getTotal());
+            socket2et = new Socket("127.0.0.1", 10578);
+            oos = new ObjectOutputStream(socket2et.getOutputStream());
+            oos.writeObject(ficha);
+            oos.close();
+            socket2et.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /* ----------------------------- RUN RECIBE DEL SERVIDOR ----------------------------- */
     @Override
     public void run() {
 
@@ -64,6 +100,7 @@ public class GestorCliente extends Thread {
                 socket2.close();
             }
         } catch (IOException ex) {
+            System.out.println("U P S ! ! ! E R R O R");
         }
 
     }
