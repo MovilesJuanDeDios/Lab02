@@ -24,18 +24,14 @@ public class GestorCliente extends Thread {
     protected ObjectOutputStream oos;
     protected ObjectInputStream ois;
 
-    private String nombre;
-    private int puntaje;
-    private String juego;
-    private int estado;
-    
-    public GestorCliente(String nombre, int puntaje, String juego) {
-        this.nombre = nombre;
-        this.puntaje = puntaje;
-        this.juego = juego;
-        this.estado = 1;
+    private Jugador jugador;
+    private int estado = 0;
+    private boolean flag = true;
+
+    public GestorCliente() {
+
     }
-    
+
     public int getEstado() {
         return estado;
     }
@@ -43,18 +39,32 @@ public class GestorCliente extends Thread {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
     public void ingresarJugador() {
         try {
-            ServicioJugador sj = new ServicioJugador();
-            Jugador jugador = new Jugador(nombre, puntaje, juego);
-            //sj.insertarJugador(jugador);
+            Jugador jugador = this.jugador;
             System.out.println("Nombre: " + jugador.getNickName());
             sk = new Socket("127.0.0.1", 10578);
 
             dos = new DataOutputStream(sk.getOutputStream());
             dis = new DataInputStream(sk.getInputStream());
-            
+
             oos = new ObjectOutputStream(sk.getOutputStream());
             ois = new ObjectInputStream(sk.getInputStream());
 
@@ -66,70 +76,34 @@ public class GestorCliente extends Thread {
 
             dis.close();
             dos.close();
-            
+
             oos.close();
             ois.close();
-            
+
+            sk.close();
+
         } catch (IOException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (GlobalException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoDataException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 
     @Override
     public void run() {
-        try {
-            //sk = new Socket("127.0.0.1", 10578);
 
-            switch (estado) {
-                case 1:
-                    ingresarJugador();
-                    break;
-                default:
-                    break;
-            }
-            /*ServicioJugador sj = new ServicioJugador();
-            Jugador jugador = new Jugador(nombre, puntaje, juego);
-            sj.insertarJugador(jugador);
-            System.out.println("Nombre: " + jugador.getNickName());
-            sk = new Socket("127.0.0.1", 10578);
+        System.out.println("Ingresando al hilo");
 
-            dos = new DataOutputStream(sk.getOutputStream());
-            dis = new DataInputStream(sk.getInputStream());
+        switch (estado) {
+            case 1:
+                ingresarJugador();
+                setEstado(0);
+                break;
+            case 0:
+                System.out.println("D E F A U L T ! ! !");
+                break;
+        }
 
-            oos = new ObjectOutputStream(sk.getOutputStream());
-            ois = new ObjectInputStream(sk.getInputStream());
-
-            oos.writeObject(jugador);
-
-            jugador = (Jugador) ois.readObject();
-
-            System.out.println("Servidor devuelve: " + jugador.toString());
-
-            dis.close();
-            dos.close();
-
-            oos.close();
-            ois.close();
-             */
-            sk.close();
-        } catch (IOException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (ClassNotFoundException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GlobalException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoDataException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }  */      
     }
+
 }

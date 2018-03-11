@@ -20,9 +20,15 @@ public class Cliente {
             thread.start();
         }
 */
-        GestorCliente gc = new GestorCliente("uuu", 4, "yyy");
+        GestorCliente gc = new GestorCliente();
+        // Primera activacion del hilo
+
+        Jugador jugador = new Jugador("yxz", 1, "yyy");
+        gc.setJugador(jugador);
         gc.setEstado(1);
         gc.start();
+  
+        
     }
 
 }
