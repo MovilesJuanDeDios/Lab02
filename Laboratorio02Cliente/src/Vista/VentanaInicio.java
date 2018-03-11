@@ -1,6 +1,7 @@
 
 package Vista;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class VentanaInicio extends javax.swing.JFrame {
@@ -48,7 +49,7 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Domino6-6.png"))); // NOI18N
 
-        jButton1.setText("Jugar");
+        jButton1.setText("Nuevo Juego");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -115,9 +116,14 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String jugadores = JOptionPane.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4)");        
+        ArrayList<String> nomJugadores = new ArrayList();
+        String nomPartida = JOptionPane.showInputDialog("Ingrese el nombre de la partida (Se usara para luego retomar una partida sin terminar): ");
+        String jugadores = JOptionPane.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4): ");        
         if("2".equals(jugadores) || "3".equals(jugadores) || "4".equals(jugadores)){
             int jug = Integer.parseInt(jugadores);
+            for(int i = 0; i < jug; i++){
+                nomJugadores.add(JOptionPane.showInputDialog("Ingrese el nombre del jugador " + (i+1) +": "));
+            }
             VentanaJuego venJ = new VentanaJuego(jug);
             venJ.setVisible(true);
         }
@@ -126,7 +132,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        String nomPartida = JOptionPane.showInputDialog("Ingrese el nombre de la partida que desea retomar: ");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
