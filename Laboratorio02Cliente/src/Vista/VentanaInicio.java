@@ -132,22 +132,31 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JOptionPane jop = new JOptionPane();
-        String nomJugador = JOptionPane.showInputDialog("Ingrese el nombre de un jugador ya existente: ");
-        if (nomJugador == null || (nomJugador != null && ("".equals(nomJugador)))) {
-            jop.setVisible(false);
+        String jugadores = jop.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4): ");
+        if (jugadores != null) {
+            if ("2".equals(jugadores) || "3".equals(jugadores) || "4".equals(jugadores)) {
+                int nJug = Integer.parseInt(jugadores);
+                JOptionPane jop2;
+                for (int i = 0; i < nJug; i++) {
+                    jop2 = new JOptionPane();
+                    String nomJugador = JOptionPane.showInputDialog("Ingrese el nombre de un jugador ya existente: ");
+                    if (nomJugador == null) { // presiona cancelar
+                        jop2.setVisible(false);
+                    } else {
+                        
+                    }
+                }
+                VentanaJuego venJ = new VentanaJuego(nJug);
+                venJ.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "¡La cantidad de jugadores debe ser un numero entre 2 y 4!", "Error", JOptionPane.WARNING_MESSAGE);
+            }
         } else {
-            Jugador jugador = new Jugador(nomJugador, 0);
-            gc.enviarJugador(jugador, "guardar");
+            jop.setVisible(false);
         }
         
-        String jugadores = JOptionPane.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4): ");        
-        if("2".equals(jugadores) || "3".equals(jugadores) || "4".equals(jugadores)){
-            int jug = Integer.parseInt(jugadores);            
-            VentanaJuego venJ = new VentanaJuego(jug);
-            venJ.setVisible(true);
-        }
-        else
-            JOptionPane.showMessageDialog(null, "¡La cantidad de jugadores debe ser un numero entre 2 y 4!", "Error",JOptionPane.WARNING_MESSAGE);
+        
+        
         //Juego juego = new Juego(nomPartida);
         //gc.enviarJuego(juego, "insertar");
         
@@ -159,24 +168,23 @@ public class VentanaInicio extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         JOptionPane jop = new JOptionPane();
-        String nomJugador = jop.showInputDialog("Ingrese el nombre de un nuevo jugador: ");
-        if (nomJugador == null) {
+        String nomJugador = jop.showInputDialog("Ingrese el nombre de un nuevo jugador:");
+        if (nomJugador == null) { // presiona cancelar
             jop.setVisible(false);
         } else {
-            if (("".equals(nomJugador)))
-                JOptionPane.showMessageDialog(null, "¡Nombre no permitido!", "Error",JOptionPane.WARNING_MESSAGE);
-            else {
-                Jugador jugador = new Jugador(nomJugador, 0);
+            if (("".equals(nomJugador))) {
+                JOptionPane.showMessageDialog(null, "¡Nombre no permitido!", "Error", JOptionPane.WARNING_MESSAGE);
+            } else {
+                Jugador jugador = new Jugador(nomJugador, 0); // crea el jugador que va a insertar
                 gc.enviarJugador(jugador, "buscarJugador");
-                if (gc.getJugador().getNickName().equals("null")) {
-                    JOptionPane.showMessageDialog(null, "¡No existe!", "Error",JOptionPane.WARNING_MESSAGE);
+                if (gc.getJugador().getNickName().equals("")) {
+                    gc.enviarJugador(jugador, "guardar");
                 } else {
-                    JOptionPane.showMessageDialog(null, "¡Ya existe!", "Error",JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "¡Ese jugador ya existe!", "Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
-        
-    
-            }
+
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

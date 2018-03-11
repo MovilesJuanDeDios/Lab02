@@ -76,20 +76,17 @@ public class ServidorHilo extends Thread {
                             oos.writeObject(jugador);
                             break;
 
-                        case "buscarJugador":
-                            
-                            Jugador jug = sj.buscarJugador(jugador.getNickName());
-                            if (jug == null) {
-                                Jugador jug2  = new Jugador("null", 0);
-                                jug2.setAccion("buscarJugador");
-                                oos.writeObject(jug2); 
-                            } else { 
-                            oos.writeObject(jug);
+                        case "buscarJugador":   
+                            //System.out.println(jugador.toString());
+                            if (sj.buscarJugador(jugador.getNickName()).equals("")) { // no existe
+                                jugador.setAccion("buscarJugador");
+                                oos.writeObject(jugador);
+                            } else {
+                                
                             }
                             break;
                     }
-                    //System.out.println(jugador.toString() + " " + jugador.getAccion());
-
+   
                     break;
                 
                 case "Ficha":

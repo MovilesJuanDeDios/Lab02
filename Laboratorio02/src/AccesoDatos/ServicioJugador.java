@@ -133,7 +133,7 @@ public class ServicioJugador extends Servicio {
             }
         }
         if (jugador == null) {
-            return null;
+            return new Jugador();
         }
         System.out.print(jugador.toString());
         return jugador;

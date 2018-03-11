@@ -106,8 +106,7 @@ public class GestorCliente extends Thread {
                 socket2 = serSock.accept();
                 Object object = new Object();
                 ois = new ObjectInputStream(socket2.getInputStream());
-                object = ois.readObject();
-                //System.out.println(object.toString());
+                object = ois.readObject();   
                 String className = object.getClass().getSimpleName();
                 switch (className) {
                     case "Jugador":
