@@ -7,6 +7,7 @@ public class Ficha {
         this.valorDer = 0;
         this.valorIzq = 0;
         this.total = 0;
+        this.accion = "";
     }
 
     public Ficha(int valorDer, int valorIzq, int total) {
@@ -27,6 +28,14 @@ public class Ficha {
         this.total = total;
     }
 
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+    
+    public String getAccion() {
+        return accion;
+    }
+    
     public int getValorDer() {
         return valorDer;
     }
@@ -59,6 +68,7 @@ public class Ficha {
     private static final String[] NOMBRE_CAMPOS = {"Valor Derecho", "Valor Izquierdo", "Total"};    
     private int valorDer;
     private int valorIzq;
-    private int total; 
+    private int total;
+    private String accion;
     
 }

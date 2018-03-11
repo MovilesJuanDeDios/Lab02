@@ -10,8 +10,8 @@ public class Cliente {
     public static void main(String[] args) {
         GestorCliente gc = new GestorCliente();
         
-        Jugador jugador = new Jugador("yxz", 1, "yyy");
-        gc.enviarJugador(jugador,"guardar");
+        Jugador jugador = new Jugador("xyx", 5, "ccc");
+        gc.enviarJugador(jugador,"actualizar");
 
                
     }

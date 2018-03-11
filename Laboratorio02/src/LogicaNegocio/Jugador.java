@@ -9,6 +9,7 @@ public class Jugador implements Serializable{
         this.nickName = "";
         this.puntaje = 0;
         this.juego = "";
+        this.accion = "";
     }
 
     public Jugador(String nickName, int puntaje, String juego) {
@@ -40,6 +41,16 @@ public class Jugador implements Serializable{
     public String getJuego() {
         return juego;
     }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+    
+    
     
     public static String[] nombreCampos(){
         return NOMBRE_CAMPOS;
@@ -66,4 +77,5 @@ public class Jugador implements Serializable{
     }
 
     private String juego;
+    private String accion;
 }
