@@ -1,8 +1,10 @@
 
 package Vista;
 
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import ClientManager.GestorCliente;
+import LogicaNegocio.Juego;
+import LogicaNegocio.Jugador;
 
 public class VentanaInicio extends javax.swing.JFrame {
 
@@ -15,6 +17,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         initComponents();
+        gc = new GestorCliente();
     }
 
     /**
@@ -128,8 +131,15 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JOptionPane jop = new JOptionPane();
         String nomJugador = JOptionPane.showInputDialog("Ingrese el nombre de un jugador ya existente: ");
-        String nomPartida = JOptionPane.showInputDialog("Ingrese el nombre de la partida (Se usara para luego retomar una partida sin terminar): ");
+        if (nomJugador == null || (nomJugador != null && ("".equals(nomJugador)))) {
+            jop.setVisible(false);
+        } else {
+            Jugador jugador = new Jugador(nomJugador, 0);
+            gc.enviarJugador(jugador, "guardar");
+        }
+        
         String jugadores = JOptionPane.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4): ");        
         if("2".equals(jugadores) || "3".equals(jugadores) || "4".equals(jugadores)){
             int jug = Integer.parseInt(jugadores);            
@@ -138,14 +148,35 @@ public class VentanaInicio extends javax.swing.JFrame {
         }
         else
             JOptionPane.showMessageDialog(null, "¡La cantidad de jugadores debe ser un numero entre 2 y 4!", "Error",JOptionPane.WARNING_MESSAGE);
+        //Juego juego = new Juego(nomPartida);
+        //gc.enviarJuego(juego, "insertar");
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String nomPartida = JOptionPane.showInputDialog("Ingrese el nombre de la partida que desea retomar: ");
+ 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String nomJugador = JOptionPane.showInputDialog("Ingrese el nombre de un nuevo jugador: ");
+        JOptionPane jop = new JOptionPane();
+        String nomJugador = jop.showInputDialog("Ingrese el nombre de un nuevo jugador: ");
+        if (nomJugador == null) {
+            jop.setVisible(false);
+        } else {
+            if (("".equals(nomJugador)))
+                JOptionPane.showMessageDialog(null, "¡Nombre no permitido!", "Error",JOptionPane.WARNING_MESSAGE);
+            else {
+                Jugador jugador = new Jugador(nomJugador, 0);
+                gc.enviarJugador(jugador, "buscarJugador");
+                if (gc.getJugador().getNickName().equals("null")) {
+                    JOptionPane.showMessageDialog(null, "¡No existe!", "Error",JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "¡Ya existe!", "Error",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        
+    
+            }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -194,4 +225,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
+    private GestorCliente gc;
+
 }
+

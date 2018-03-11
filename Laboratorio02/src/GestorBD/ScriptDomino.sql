@@ -74,35 +74,33 @@ end;
 create table Jugador(
 	nickname VARCHAR(50), 
 	puntos INT,
-        codJuego VARCHAR(50), 
-	CONSTRAINTS pkJugador PRIMARY KEY (nickname),
-        CONSTRAINT fkJuego FOREIGN KEY (codJuego) REFERENCES Juego(codJuego)
+	CONSTRAINTS pkJugador PRIMARY KEY (nickname)
 );
 
 -- ----------------- INSERTAR JUGADOR ----------------- 
-CREATE OR REPLACE PROCEDURE insertarJugador(nickname IN Jugador.nickname%TYPE, puntos IN Jugador.puntos%TYPE,codJuego IN Jugador.codJuego%TYPE)
+CREATE OR REPLACE PROCEDURE insertarJugador(nickname IN Jugador.nickname%TYPE, puntos IN Jugador.puntos%TYPE)
 AS
 BEGIN
-	INSERT INTO Jugador VALUES(nickname,puntos,codJuego);
+	INSERT INTO Jugador VALUES(nickname,puntos);
 END;
 /
 
 -- ----------------- ACTUALIZAR JUGADOR ----------------- 
-CREATE OR REPLACE PROCEDURE actualizarJugador(nicknamein IN Jugador.nickname%TYPE, puntosin IN Jugador.puntos%TYPE, codJuegoin IN Jugador.codJuego%TYPE)
+CREATE OR REPLACE PROCEDURE actualizarJugador(nicknamein IN Jugador.nickname%TYPE, puntosin IN Jugador.puntos%TYPE)
 AS
 BEGIN
-	UPDATE Jugador SET puntos=puntosin,codJuego=codJuegoin WHERE nickname=nicknamein;
+	UPDATE Jugador SET puntos=puntosin WHERE nickname=nicknamein;
 END;
 /
 
 -- ----------------- BUSCAR JUGADOR ----------------- 
-CREATE OR REPLACE FUNCTION buscarJugador(codJuegoin IN Jugador.codJuego%TYPE)
+CREATE OR REPLACE FUNCTION buscarJugador(nicknamein IN Jugador.nickname%TYPE)
 RETURN Types.ref_cursor 
 AS 
         Jugador_cursor types.ref_cursor; 
 BEGIN 
   OPEN Jugador_cursor FOR 
-       SELECT * FROM Jugador WHERE codJuego=codJuegoin; 
+       SELECT * FROM Jugador WHERE nickname=nicknamein; 
 RETURN Jugador_cursor; 
 END;
 /

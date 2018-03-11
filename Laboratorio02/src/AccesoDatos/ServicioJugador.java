@@ -13,7 +13,7 @@ import oracle.jdbc.internal.OracleTypes;
 
 public class ServicioJugador extends Servicio {
 
-    private static final String INSERTAJUGADOR = "{call insertarJugador(?)}";
+    private static final String INSERTAJUGADOR = "{call insertarJugador(?,?)}";
     private static final String INSERTAFICHAJUGADOR = "{call insertarFichaJugador(?,?)}";
     private static final String LISTARJUGADOR = "{?=call listarJugador()}";
     private static final String BUSCARJUGADOR = "{?=call buscarJugador(?)}";
@@ -34,7 +34,6 @@ public class ServicioJugador extends Servicio {
             pstmt = cn.prepareCall(INSERTAJUGADOR);
             pstmt.setString(1, jugador.getNickName());
             pstmt.setInt(2, jugador.getPuntaje());
-            pstmt.setString(3, jugador.getJuego());
 
             boolean resultado = pstmt.execute();
 
@@ -73,8 +72,7 @@ public class ServicioJugador extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 jugador = new Jugador(rs.getString("nickname"),
-                        rs.getInt("puntos"),
-                        rs.getString("codJuego"));
+                        rs.getInt("puntos"));
                 coleccion.add(jugador);
             }
         } catch (SQLException e) {
@@ -115,8 +113,7 @@ public class ServicioJugador extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 jugador = new Jugador(rs.getString("nickname"),
-                        rs.getInt("puntos"),
-                        rs.getString("codJuego"));
+                rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,7 +133,7 @@ public class ServicioJugador extends Servicio {
             }
         }
         if (jugador == null) {
-            throw new NoDataException("No hay datos");
+            return null;
         }
         System.out.print(jugador.toString());
         return jugador;
@@ -149,8 +146,7 @@ public class ServicioJugador extends Servicio {
             pstmt = cn.prepareStatement(ACTUALIZARJUGADOR);
             pstmt.setString(1, jugador.getNickName());
             pstmt.setInt(2, jugador.getPuntaje());
-            pstmt.setString(3, jugador.getJuego());
-            
+
             boolean resultado = pstmt.execute();
 
             if (resultado == true) {

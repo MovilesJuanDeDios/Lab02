@@ -1,7 +1,9 @@
 
 package LogicaNegocio;
 
-public class Ficha {
+import java.io.Serializable;
+
+public class Ficha implements Serializable {
     
     public Ficha() {
         this.valorDer = 0;

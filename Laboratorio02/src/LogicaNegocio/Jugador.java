@@ -8,14 +8,12 @@ public class Jugador implements Serializable{
     public Jugador(){
         this.nickName = "";
         this.puntaje = 0;
-        this.juego = "";
         this.accion = "";
     }
 
-    public Jugador(String nickName, int puntaje, String juego) {
+    public Jugador(String nickName, int puntaje) {
         this.nickName = nickName;
         this.puntaje = puntaje;
-        this.juego = juego;
     }   
 
     public void setNickName(String nickName) {
@@ -25,11 +23,7 @@ public class Jugador implements Serializable{
     public void setPuntaje(int puntaje) {
         this.puntaje = puntaje;
     }
-
-    public void setJuego(String juego) {
-        this.juego = juego;
-    }
-    
+  
     public String getNickName() {
         return nickName;
     }
@@ -37,11 +31,7 @@ public class Jugador implements Serializable{
     public int getPuntaje() {
         return puntaje;
     }
-    
-    public String getJuego() {
-        return juego;
-    }
-
+ 
     public String getAccion() {
         return accion;
     }
@@ -49,8 +39,6 @@ public class Jugador implements Serializable{
     public void setAccion(String accion) {
         this.accion = accion;
     }
-    
-    
     
     public static String[] nombreCampos(){
         return NOMBRE_CAMPOS;
@@ -76,6 +64,5 @@ public class Jugador implements Serializable{
         return NOMBRE_CAMPOS;
     }
 
-    private String juego;
     private String accion;
 }

@@ -1,7 +1,9 @@
 
 package LogicaNegocio;
 
-public class Juego {   
+import java.io.Serializable;
+
+public class Juego implements Serializable {   
     
     public Juego (){
         this.codigo = "";
@@ -28,8 +30,7 @@ public class Juego {
         this.accion = accion;
     }
     
-    
-    
+
     @Override
     public String toString() {
         return "Juego{" + "codigo=" + codigo + '}';

@@ -3,6 +3,7 @@ package Server;
 
 import AccesoDatos.GlobalException;
 import AccesoDatos.NoDataException;
+import AccesoDatos.ServicioJuego;
 import AccesoDatos.ServicioJugador;
 import LogicaNegocio.Ficha;
 import LogicaNegocio.Juego;
@@ -37,7 +38,7 @@ public class ServidorHilo extends Thread {
             dos = new DataOutputStream(socket2.getOutputStream());
             dis = new DataInputStream(socket.getInputStream());
            
-//            oos = new ObjectOutputStream(socket2.getOutputStream());
+            oos = new ObjectOutputStream(socket2.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             
         } catch (IOException ex) {
@@ -61,55 +62,57 @@ public class ServidorHilo extends Thread {
             object = ois.readObject();
             String className = object.getClass().getSimpleName();
             switch(className) {
-                case "Jugador":
-                    
+                case "Jugador":  
                     Jugador jugador = (Jugador) object;
                     ServicioJugador sj = new ServicioJugador();
-                    switch(jugador.getAccion()) {
-                        case "guardar": 
-                             sj.insertarJugador(jugador);
-                             dos.writeUTF("jugador recibido");
+                    switch (jugador.getAccion()) {
+                        case "guardar":
+                            sj.insertarJugador(jugador);
+                            oos.writeObject(jugador);
                             break;
-                            
+
                         case "actualizar":
                             sj.actualizarJugador(jugador);
-                            dos.writeUTF("jugador actualizado");
+                            oos.writeObject(jugador);
                             break;
-                             
-                        case "buscarFichaJugador": 
+
+                        case "buscarJugador":
+                            
+                            Jugador jug = sj.buscarJugador(jugador.getNickName());
+                            if (jug == null) {
+                                Jugador jug2  = new Jugador("null", 0);
+                                oos.writeObject(jug2);
+                            } else { 
+                            oos.writeObject(jug);
+                            }
                             break;
                     }
-                    System.out.println(jugador.toString());
-                   
-                    System.out.println(jugador.getAccion());
-                    
-                   
-                    
-                break;
+                    //System.out.println(jugador.toString() + " " + jugador.getAccion());
+
+                    break;
                 
                 case "Ficha":
-                    System.out.println("Es ficha");
                     Ficha ficha = (Ficha) object;
                 break;
                 
                 case "Juego":
                     System.out.println("Es juego");
                     Juego juego = (Juego) object;
-                    switch(juego.getAccion()) {
-                        case "insertar": break;
-                        case "buscar": break;
+                    ServicioJuego sjuego = new ServicioJuego();
+                    switch (juego.getAccion()) {
+                        case "insertar":
+                            sjuego.insertarJuego(juego);
+                            oos.writeObject(juego);
+                            break;
+                        case "buscar":
+                            sjuego.buscarJuego(juego.getCodigo());
+                            oos.writeObject(juego);
+                            break;
                     }
-                break;
+                    break;
             }
           
-           
-            /*if (jugador != null) {
-                //jugador.setNickName("banano en leche");
-                ServicioJugador sj = new ServicioJugador();
-                sj.insertarJugador(jugador);
-                dos.writeUTF("Jugador recibido");
-                //oos.writeObject(jugador);
-            }*/
+         
             ois.close();
             dos.close();
             //oos.close();

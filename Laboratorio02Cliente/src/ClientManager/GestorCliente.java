@@ -1,16 +1,13 @@
 
 package ClientManager;
 
-import AccesoDatos.GlobalException;
-import AccesoDatos.NoDataException;
-import AccesoDatos.ServicioJugador;
+
 import LogicaNegocio.Ficha;
 import LogicaNegocio.Juego;
 import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.logging.*;
 
 /**
@@ -31,11 +28,22 @@ public class GestorCliente extends Thread {
     //OBJETOS
     protected ObjectOutputStream oos;
     protected ObjectInputStream ois;
-
+    
+    private Jugador jug;
+    
     
     public GestorCliente() {
         Thread hilo=new Thread(this);
+        jug = new Jugador();
         hilo.start();
+    }
+    
+    public void setJugador(Jugador jug) {
+        this.jug = jug;
+    }
+    
+    public Jugador getJugador() {
+        return jug;
     }
 
     /* ----------------------------- METODOS DE JUGADOR ----------------------------- */
@@ -45,11 +53,9 @@ public class GestorCliente extends Thread {
             jugador.setAccion(accion);
             System.out.println("Nombre: " + jugador.getNickName());
             socket = new Socket("127.0.0.1", 10578);
-            dos = new DataOutputStream((socket.getOutputStream()));
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            //dos.writeUTF(accion);
+           
+            oos = new ObjectOutputStream(socket.getOutputStream());         
             oos.writeObject(jugador);
-            dos.close();
             oos.close();
             
             socket.close();
@@ -62,6 +68,7 @@ public class GestorCliente extends Thread {
     public void enviarJuego(Juego jug,String accion) {
         try {
             Juego juego = jug;
+            juego.setAccion(accion);
             System.out.println("Nombre: " + juego.getCodigo());
             socket = new Socket("127.0.0.1", 10578);
             oos = new ObjectOutputStream(socket.getOutputStream());
@@ -97,16 +104,41 @@ public class GestorCliente extends Thread {
             serSock = new ServerSocket(10579);
             while(true){
                 socket2 = serSock.accept();
-                dis = new DataInputStream(socket2.getInputStream());
-                String respuesta="";
-                respuesta = dis.readUTF();
-                System.out.println(" Servidor devuelve: " + respuesta);
-                dis.close();
+                Object object = new Object();
+                ois = new ObjectInputStream(socket2.getInputStream());
+                object = ois.readObject();
+                //System.out.println(object.toString());
+                String className = object.getClass().getSimpleName();
+                switch (className) {
+                    case "Jugador":
+                        Jugador jugador = (Jugador) object;
+                        switch (jugador.getAccion()) {
+                            case "buscarJugador":
+                                setJugador(jugador);
+                                break;
+                            case "guardar":
+                                System.out.println(jugador.toString());
+                                break;
+                            case "actualizar": // actualiza los puntos
+                                System.out.println(jugador.toString());
+                                break;
+                        }
+                        break;
+
+                    case "Juego":
+                        
+                        break;
+                    case "Ficha":
+                        break;
+                }
+
                 socket2.close();
-            
-        }
+
+            }
         } catch (IOException ex) {
             System.out.println("U P S ! ! ! E R R O R");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
