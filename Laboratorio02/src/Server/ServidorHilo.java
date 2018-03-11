@@ -35,8 +35,8 @@ public class ServidorHilo extends Thread {
         this.socket2 = socket2;
         try {
             dos = new DataOutputStream(socket2.getOutputStream());
-//            dis = new DataInputStream(socket.getInputStream());
-//            
+            dis = new DataInputStream(socket.getInputStream());
+           
 //            oos = new ObjectOutputStream(socket2.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             
@@ -62,7 +62,29 @@ public class ServidorHilo extends Thread {
             String className = object.getClass().getSimpleName();
             switch(className) {
                 case "Jugador":
+                    
                     Jugador jugador = (Jugador) object;
+                    ServicioJugador sj = new ServicioJugador();
+                    switch(jugador.getAccion()) {
+                        case "guardar": 
+                             sj.insertarJugador(jugador);
+                             dos.writeUTF("jugador recibido");
+                            break;
+                            
+                        case "actualizar":
+                            sj.actualizarJugador(jugador);
+                            dos.writeUTF("jugador actualizado");
+                            break;
+                             
+                        case "buscarFichaJugador": 
+                            break;
+                    }
+                    System.out.println(jugador.toString());
+                   
+                    System.out.println(jugador.getAccion());
+                    
+                   
+                    
                 break;
                 
                 case "Ficha":
@@ -73,6 +95,10 @@ public class ServidorHilo extends Thread {
                 case "Juego":
                     System.out.println("Es juego");
                     Juego juego = (Juego) object;
+                    switch(juego.getAccion()) {
+                        case "insertar": break;
+                        case "buscar": break;
+                    }
                 break;
             }
           
@@ -91,13 +117,13 @@ public class ServidorHilo extends Thread {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-        }/* catch (GlobalException ex) {
+        } catch (GlobalException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoDataException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         desconectar();
     }
 }

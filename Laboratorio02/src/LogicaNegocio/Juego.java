@@ -5,6 +5,7 @@ public class Juego {
     
     public Juego (){
         this.codigo = "";
+        this.accion = "";
     }
 
     public Juego(String codigo) {
@@ -18,6 +19,16 @@ public class Juego {
     public String getCodigo() {
         return codigo;
     }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+    
+    
     
     @Override
     public String toString() {
@@ -36,4 +47,5 @@ public class Juego {
     
     private static final String[] NOMBRE_CAMPOS = {"Codigo"};
     private String codigo;
+    private String accion;
 }
