@@ -4,6 +4,8 @@ package Server;
 import AccesoDatos.GlobalException;
 import AccesoDatos.NoDataException;
 import AccesoDatos.ServicioJugador;
+import LogicaNegocio.Ficha;
+import LogicaNegocio.Juego;
 import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.*;
@@ -54,16 +56,34 @@ public class ServidorHilo extends Thread {
 
     @Override
     public void run() {
-        Jugador jugador;
+        Object object = new Object();
         try {
-            jugador = (Jugador) ois.readObject();
-            if (jugador != null) {
+            object = ois.readObject();
+            String className = object.getClass().getSimpleName();
+            switch(className) {
+                case "Jugador":
+                    Jugador jugador = (Jugador) object;
+                break;
+                
+                case "Ficha":
+                    System.out.println("Es ficha");
+                    Ficha ficha = (Ficha) object;
+                break;
+                
+                case "Juego":
+                    System.out.println("Es juego");
+                    Juego juego = (Juego) object;
+                break;
+            }
+          
+           
+            /*if (jugador != null) {
                 //jugador.setNickName("banano en leche");
                 ServicioJugador sj = new ServicioJugador();
                 sj.insertarJugador(jugador);
                 dos.writeUTF("Jugador recibido");
                 //oos.writeObject(jugador);
-            }
+            }*/
             ois.close();
             dos.close();
             //oos.close();
@@ -71,13 +91,13 @@ public class ServidorHilo extends Thread {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GlobalException ex) {
+        }/* catch (GlobalException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoDataException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         desconectar();
     }
 }
