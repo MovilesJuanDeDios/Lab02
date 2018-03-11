@@ -11,11 +11,9 @@ public class Cliente {
         GestorCliente gc = new GestorCliente();
         
         Jugador jugador = new Jugador("yxz", 1, "yyy");
-        gc.ingresarJugador(jugador);
+        gc.enviarJugador(jugador,"guardar");
 
-        
-
-        
+               
     }
 
 }
