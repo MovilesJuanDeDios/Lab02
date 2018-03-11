@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/Server/Servidor.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/GestorBD/ScriptDomino.sql</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/ServicioJugador.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Juego.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Ficha.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/AccesoDatos/Servicio.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/Server/ServidorHilo.java</file>
-            <file>file:/C:/Users/jodre/Documents/GitHub/Lab02/Laboratorio02/src/LogicaNegocio/Jugador.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

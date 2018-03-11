@@ -81,7 +81,8 @@ public class ServidorHilo extends Thread {
                             Jugador jug = sj.buscarJugador(jugador.getNickName());
                             if (jug == null) {
                                 Jugador jug2  = new Jugador("null", 0);
-                                oos.writeObject(jug2);
+                                jug2.setAccion("buscarJugador");
+                                oos.writeObject(jug2); 
                             } else { 
                             oos.writeObject(jug);
                             }
