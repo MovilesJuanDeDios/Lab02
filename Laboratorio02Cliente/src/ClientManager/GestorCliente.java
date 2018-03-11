@@ -6,6 +6,7 @@ import AccesoDatos.NoDataException;
 import AccesoDatos.ServicioJugador;
 import LogicaNegocio.Jugador;
 import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.logging.*;
@@ -16,7 +17,10 @@ import java.util.logging.*;
  */
 public class GestorCliente extends Thread {
 
-    protected Socket sk;
+    protected Socket socket2et;
+    protected Socket socket2;
+    protected ServerSocket serSock;
+
 
     protected DataOutputStream dos;
     protected DataInputStream dis;
@@ -29,7 +33,8 @@ public class GestorCliente extends Thread {
     private boolean flag = true;
 
     public GestorCliente() {
-
+        Thread hilo=new Thread(this);
+        hilo.start();
     }
 
     public int getEstado() {
@@ -60,31 +65,12 @@ public class GestorCliente extends Thread {
         try {
             Jugador jugador = this.jugador;
             System.out.println("Nombre: " + jugador.getNickName());
-            sk = new Socket("127.0.0.1", 10578);
-
-            dos = new DataOutputStream(sk.getOutputStream());
-            dis = new DataInputStream(sk.getInputStream());
-
-            oos = new ObjectOutputStream(sk.getOutputStream());
-            ois = new ObjectInputStream(sk.getInputStream());
-
+            socket2et = new Socket("127.0.0.1", 10578);
+            oos = new ObjectOutputStream(socket2et.getOutputStream());
             oos.writeObject(jugador);
-
-            jugador = (Jugador) ois.readObject();
-
-            System.out.println("Servidor devuelve: " + jugador.toString());
-
-            dis.close();
-            dos.close();
-
             oos.close();
-            ois.close();
-
-            sk.close();
-
+            socket2et.close();
         } catch (IOException ex) {
-            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -92,18 +78,19 @@ public class GestorCliente extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Ingresando al hilo");
-
-        switch (estado) {
-            case 1:
-                ingresarJugador();
-                setEstado(0);
-                break;
-            case 0:
-                System.out.println("D E F A U L T ! ! !");
-                break;
+        try {
+            serSock = new ServerSocket(10579);
+            while(true){
+                socket2 = serSock.accept();
+                dis = new DataInputStream(socket2.getInputStream());
+                String respuesta="";
+                respuesta = dis.readUTF();
+                System.out.println(" Servidor devuelve: " + respuesta);
+                dis.close();
+                socket2.close();
+            }
+        } catch (IOException ex) {
         }
 
     }
-
 }

@@ -22,12 +22,13 @@ public class Cliente {
 */
         GestorCliente gc = new GestorCliente();
         // Primera activacion del hilo
-
+        
         Jugador jugador = new Jugador("yxz", 1, "yyy");
         gc.setJugador(jugador);
-        gc.setEstado(1);
-        gc.start();
-  
+        gc.ingresarJugador();
+//        gc.setEstado(1);
+        
+
         
     }
 

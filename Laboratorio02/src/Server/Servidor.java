@@ -15,9 +15,10 @@ public class Servidor {
 			int idSession = 0;
 			while (true) {
 				Socket socket;
-				socket = ss.accept();
+				socket = ss.accept();                                
 				System.out.println("Nueva conexión entrante: "+socket);
-				((ServidorHilo) new ServidorHilo(socket, idSession)).start();
+                                Socket socket2 = new Socket("127.0.0.1", 10579);
+				((ServidorHilo) new ServidorHilo(socket,socket2)).start();
 				idSession++;
 			}
 		} catch (IOException ex) {

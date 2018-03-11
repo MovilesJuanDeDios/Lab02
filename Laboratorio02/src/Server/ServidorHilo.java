@@ -18,6 +18,7 @@ import java.util.logging.*;
 public class ServidorHilo extends Thread {
     
     private Socket socket;
+    private Socket socket2;
     
     private DataOutputStream dos;
     private DataInputStream dis;
@@ -27,14 +28,14 @@ public class ServidorHilo extends Thread {
     
     private int idSessio;
     
-    public ServidorHilo(Socket socket, int id) {
+    public ServidorHilo(Socket socket,Socket socket2) {
         this.socket = socket;
-        this.idSessio = id;
+        this.socket2 = socket2;
         try {
-            dos = new DataOutputStream(socket.getOutputStream());
-            dis = new DataInputStream(socket.getInputStream());
-            
-            oos = new ObjectOutputStream(socket.getOutputStream());
+            dos = new DataOutputStream(socket2.getOutputStream());
+//            dis = new DataInputStream(socket.getInputStream());
+//            
+//            oos = new ObjectOutputStream(socket2.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
             
         } catch (IOException ex) {
@@ -45,6 +46,7 @@ public class ServidorHilo extends Thread {
     public void desconectar() {
         try {
             socket.close();
+            socket2.close();
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,10 +61,12 @@ public class ServidorHilo extends Thread {
                 //jugador.setNickName("banano en leche");
                 ServicioJugador sj = new ServicioJugador();
                 sj.insertarJugador(jugador);
-                oos.writeObject(jugador);
+                dos.writeUTF("Jugador recibido");
+                //oos.writeObject(jugador);
             }
             ois.close();
-            oos.close();
+            dos.close();
+            //oos.close();
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
