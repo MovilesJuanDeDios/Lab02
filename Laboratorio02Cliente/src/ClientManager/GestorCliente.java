@@ -28,8 +28,6 @@ public class GestorCliente extends Thread {
     protected ObjectOutputStream oos;
     protected ObjectInputStream ois;
 
-    private Jugador jugador;
-    private int estado = 0;
     private boolean flag = true;
 
     public GestorCliente() {
@@ -37,33 +35,9 @@ public class GestorCliente extends Thread {
         hilo.start();
     }
 
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
-    }
-
-    public Jugador getJugador() {
-        return jugador;
-    }
-
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
-    }
-
-    public boolean getFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
-    public void ingresarJugador() {
+    public void ingresarJugador(Jugador jug) {
         try {
-            Jugador jugador = this.jugador;
+            Jugador jugador = jug;
             System.out.println("Nombre: " + jugador.getNickName());
             socket2et = new Socket("127.0.0.1", 10578);
             oos = new ObjectOutputStream(socket2et.getOutputStream());
