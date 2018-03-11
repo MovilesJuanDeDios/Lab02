@@ -12,7 +12,7 @@ import oracle.jdbc.internal.OracleTypes;
 
 public class ServicioJugador extends Servicio {
 
-    private static final String INSERTAJUGADOR = "{call insertarJugador(?,?,?)}";
+    private static final String INSERTAJUGADOR = "{call insertarJugador(?)}";
     private static final String LISTARJUGADOR = "{?=call listarJugador()}";
     private static final String BUSCARJUGADOR = "{?=call buscarJugador(?)}";
     private static final String BUSCARFICHAJUGADOR = "{?=call buscarFichaJugador(?)}";
