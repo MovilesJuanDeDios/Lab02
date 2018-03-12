@@ -2,6 +2,7 @@
 package LogicaNegocio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Jugador implements Serializable{   
     
@@ -53,16 +54,16 @@ public class Jugador implements Serializable{
 
     @Override
     public String toString() {
-        return "Jugador{" + "nickName=" + nickName + ", puntaje=" + puntaje + '}';
+        return "Jugador{" + "nickName=" + nickName + ", puntaje=" + puntaje + ", fichas=" + fichasJugador + '}';
     }
     
-    private static final String[] NOMBRE_CAMPOS = {"Nick Name", "Puntaje"};
-    private String nickName;
-    private int puntaje;
-
     public static String[] getNOMBRE_CAMPOS() {
         return NOMBRE_CAMPOS;
     }
 
+    private static final String[] NOMBRE_CAMPOS = {"Nick Name", "Puntaje"};
+    private String nickName;
+    private int puntaje;
     private String accion;
+    public ArrayList<Ficha> fichasJugador = new ArrayList();
 }

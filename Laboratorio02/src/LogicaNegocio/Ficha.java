@@ -52,7 +52,7 @@ public class Ficha implements Serializable {
 
     @Override
     public String toString() {
-        return "Ficha{" + "valorDerecho=" + valorDer + ", valorIzquierdo=" + valorIzq + '}';
+        return "Ficha{" + "valorIzquierdo=" + valorIzq + ", valorDerecho=" + valorDer + ", total=" + total + '}';
     } 
     
     public static String[] nombreCampos(){
