@@ -72,12 +72,5 @@ public class Jugador implements Serializable {
         return NOMBRE_CAMPOS;
     }
 
-<<<<<<< HEAD
-=======
-    private static final String[] NOMBRE_CAMPOS = {"Nick Name", "Puntaje"};
-    private String nickName;
-    private int puntaje;
-    private String accion;
-    public List<Ficha> fichasJugador;
->>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
+
 }

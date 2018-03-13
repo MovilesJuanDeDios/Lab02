@@ -103,13 +103,9 @@ public class GestorCliente extends Thread {
                 socket2 = serSock.accept();
                 Object object;
                 ois = new ObjectInputStream(socket2.getInputStream());
-<<<<<<< HEAD
+
                 object = ois.readObject();
       
-=======
-                
-                object = ois.readObject();   
->>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
                 String className = object.getClass().getSimpleName();
                 switch (className) {
                     case "Jugador":
@@ -133,11 +129,10 @@ public class GestorCliente extends Thread {
                     case "Ficha":
                         break;
                 }
-<<<<<<< HEAD
+
                // ois.close();
                 socket2.close();
-=======
->>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
+
 
             }
         } catch (IOException ex) {
