@@ -21,9 +21,6 @@ public class GestorCliente extends Thread {
     protected Socket socket2;
     protected ServerSocket serSock;
 
-    // MENSAJES
-    protected DataOutputStream dos;
-    protected DataInputStream dis;
 
     //OBJETOS
     protected ObjectOutputStream oos;
@@ -47,9 +44,9 @@ public class GestorCliente extends Thread {
     }
 
     /* ----------------------------- METODOS DE JUGADOR ----------------------------- */
-    public void enviarJugador(Jugador jug, String accion) {
+    public void enviarJugador(Jugador juga, String accion) {
         try {
-            Jugador jugador = jug;
+            Jugador jugador = juga;
             jugador.setAccion(accion);
             System.out.println("Nombre: " + jugador.getNickName());
             socket = new Socket("127.0.0.1", 10578);
@@ -65,9 +62,9 @@ public class GestorCliente extends Thread {
     }
     
     /* ----------------------------- METODOS DE JUEGO ----------------------------- */
-    public void enviarJuego(Juego jug,String accion) {
+    public void enviarJuego(Juego juga,String accion) {
         try {
-            Juego juego = jug;
+            Juego juego = juga;
             juego.setAccion(accion);
             System.out.println("Nombre: " + juego.getCodigo());
             socket = new Socket("127.0.0.1", 10578);
@@ -106,7 +103,8 @@ public class GestorCliente extends Thread {
                 socket2 = serSock.accept();
                 Object object = new Object();
                 ois = new ObjectInputStream(socket2.getInputStream());
-                object = ois.readObject();   
+                object = ois.readObject();
+      
                 String className = object.getClass().getSimpleName();
                 switch (className) {
                     case "Jugador":
@@ -130,7 +128,7 @@ public class GestorCliente extends Thread {
                     case "Ficha":
                         break;
                 }
-
+               // ois.close();
                 socket2.close();
 
             }

@@ -22,21 +22,14 @@ public class ServidorHilo extends Thread {
     
     private Socket socket;
     private Socket socket2;
-    
-    private DataOutputStream dos;
-    private DataInputStream dis;
-    
+  
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    
-    private int idSessio;
-    
+     
     public ServidorHilo(Socket socket,Socket socket2) {
         this.socket = socket;
         this.socket2 = socket2;
         try {
-            dos = new DataOutputStream(socket2.getOutputStream());
-            dis = new DataInputStream(socket.getInputStream());
            
             oos = new ObjectOutputStream(socket2.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
@@ -78,12 +71,12 @@ public class ServidorHilo extends Thread {
 
                         case "buscarJugador":   
                             //System.out.println(jugador.toString());
-                            if (sj.buscarJugador(jugador.getNickName()).equals("")) { // no existe
+                             
                                 jugador.setAccion("buscarJugador");
-                                oos.writeObject(jugador);
-                            } else {
+                                oos.writeObject(sj.buscarJugador(jugador.getNickName()));
+                            
                                 
-                            }
+                            
                             break;
                     }
    
@@ -110,10 +103,8 @@ public class ServidorHilo extends Thread {
                     break;
             }
           
-         
             ois.close();
-            dos.close();
-            //oos.close();
+            oos.close();
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
