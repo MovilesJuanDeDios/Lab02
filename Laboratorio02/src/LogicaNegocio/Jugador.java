@@ -3,7 +3,6 @@ package LogicaNegocio;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Jugador implements Serializable {   
     
@@ -11,21 +10,19 @@ public class Jugador implements Serializable {
     private String nickName;
     private int puntaje;
     private String accion;
-    public List<Ficha> fichasJugador = new ArrayList();
+    public ArrayList<Ficha> fichasJugador = new ArrayList();
     
     public Jugador(){
         this.nickName = "";
         this.puntaje = 0;
         this.accion = "";
         this.fichasJugador= new ArrayList<Ficha>();
-        this.fichasJugador.add(new Ficha());
     }
 
     public Jugador(String nickName, int puntaje) {
         this.nickName = nickName;
         this.puntaje = puntaje;
         this.fichasJugador= new ArrayList<Ficha>();
-        this.fichasJugador.add(new Ficha());
     }   
 
     public void setNickName(String nickName) {

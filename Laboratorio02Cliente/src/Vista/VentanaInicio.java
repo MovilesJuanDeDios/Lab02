@@ -143,23 +143,18 @@ public class VentanaInicio extends javax.swing.JFrame {
                     if (nomJugador == null) { // presiona cancelar
                         jop2.setVisible(false);
                     } else {
-                        
+                        Jugador jugador = new Jugador(nomJugador, 0);
+                        gc.jugadores.add(jugador);
                     }
                 }
-                VentanaJuego venJ = new VentanaJuego(nJug);
+                VentanaJuego venJ = new VentanaJuego(nJug, gc);
                 venJ.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "¡La cantidad de jugadores debe ser un numero entre 2 y 4!", "Error", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             jop.setVisible(false);
-        }
-        
-        
-        
-        //Juego juego = new Juego(nomPartida);
-        //gc.enviarJuego(juego, "insertar");
-        
+        }    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

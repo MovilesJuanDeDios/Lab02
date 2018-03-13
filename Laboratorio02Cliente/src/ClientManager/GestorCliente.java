@@ -8,6 +8,7 @@ import LogicaNegocio.Jugador;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.*;
 
 /**
@@ -27,11 +28,15 @@ public class GestorCliente extends Thread {
     protected ObjectInputStream ois;
     
     private Jugador jug;
+    public ArrayList<Jugador> jugadores;
+    private Juego juego;
     
     
     public GestorCliente() {
         Thread hilo=new Thread(this);
+        jugadores = new ArrayList();
         jug = new Jugador();
+        juego = new Juego();
         hilo.start();
     }
     
@@ -41,6 +46,26 @@ public class GestorCliente extends Thread {
     
     public Jugador getJugador() {
         return jug;
+    }
+    
+    public ArrayList<Jugador> obtenerJugadores(){
+        return juego.getJugadores();
+    }
+    
+    public void guardarJugadores(){
+        juego.setJugadores(jugadores);
+    }
+    
+    public void repartirFichas(){
+        juego.repartirFichas();
+    }
+    
+    public ArrayList<Ficha> obtenerPozo(){
+        return juego.getFichas();
+    }
+    
+    public ArrayList<Ficha> obtenerFichas(){
+        return juego.getJugadores().get(0).fichasJugador;
     }
 
     /* ----------------------------- METODOS DE JUGADOR ----------------------------- */
