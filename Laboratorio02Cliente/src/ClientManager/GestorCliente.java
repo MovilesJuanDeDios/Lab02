@@ -104,8 +104,9 @@ public class GestorCliente extends Thread {
             serSock = new ServerSocket(10579);
             while(true){
                 socket2 = serSock.accept();
-                Object object = new Object();
+                Object object;
                 ois = new ObjectInputStream(socket2.getInputStream());
+                
                 object = ois.readObject();   
                 String className = object.getClass().getSimpleName();
                 switch (className) {
@@ -131,14 +132,22 @@ public class GestorCliente extends Thread {
                         break;
                 }
 
-                socket2.close();
-
             }
         } catch (IOException ex) {
             System.out.println("U P S ! ! ! E R R O R");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        desconectar();
+    }
+    public void desconectar() {
+        try {
+            socket.close();
+            socket2.close();
+            ois.close();
+            oos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(GestorCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
