@@ -25,7 +25,12 @@ public class ServidorHilo extends Thread {
   
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
+<<<<<<< HEAD
      
+=======
+    
+    
+>>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
     public ServidorHilo(Socket socket,Socket socket2) {
         this.socket = socket;
         this.socket2 = socket2;
@@ -43,6 +48,9 @@ public class ServidorHilo extends Thread {
         try {
             socket.close();
             socket2.close();
+            ois.close();
+            dos.close();
+            oos.close();
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,7 +69,7 @@ public class ServidorHilo extends Thread {
                     switch (jugador.getAccion()) {
                         case "guardar":
                             sj.insertarJugador(jugador);
-                            oos.writeObject(jugador);
+                            dos.writeUTF("Hola");
                             break;
 
                         case "actualizar":
@@ -103,8 +111,13 @@ public class ServidorHilo extends Thread {
                     break;
             }
           
+<<<<<<< HEAD
             ois.close();
             oos.close();
+=======
+         
+            
+>>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

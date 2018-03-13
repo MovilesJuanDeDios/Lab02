@@ -198,7 +198,7 @@ END;
 create or replace procedure eliminarFichaJugador(nicknamein IN JugadorFicha.nickname%TYPE)
 as
 begin
-    delete from Ficha where nickname=nicknamein;
+    delete from JugadorFicha where nickname=nicknamein;
 end;
 /
 -- ----------------- BUSCAR JUGADOR-FICHA ----------------- 

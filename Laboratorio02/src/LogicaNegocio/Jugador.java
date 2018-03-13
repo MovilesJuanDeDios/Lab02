@@ -17,11 +17,15 @@ public class Jugador implements Serializable {
         this.nickName = "";
         this.puntaje = 0;
         this.accion = "";
+        this.fichasJugador= new ArrayList<Ficha>();
+        this.fichasJugador.add(new Ficha());
     }
 
     public Jugador(String nickName, int puntaje) {
         this.nickName = nickName;
         this.puntaje = puntaje;
+        this.fichasJugador= new ArrayList<Ficha>();
+        this.fichasJugador.add(new Ficha());
     }   
 
     public void setNickName(String nickName) {
@@ -61,11 +65,19 @@ public class Jugador implements Serializable {
 
     @Override
     public String toString() {
-        return "Jugador{" + "nickName=" + nickName + ", puntaje=" + puntaje + ", fichas=" + fichasJugador + '}';
+        return "Jugador{" + "nickName=" + nickName + ", puntaje=" + puntaje + '}';
     }
     
     public static String[] getNOMBRE_CAMPOS() {
         return NOMBRE_CAMPOS;
     }
 
+<<<<<<< HEAD
+=======
+    private static final String[] NOMBRE_CAMPOS = {"Nick Name", "Puntaje"};
+    private String nickName;
+    private int puntaje;
+    private String accion;
+    public List<Ficha> fichasJugador;
+>>>>>>> a1b0f93e25efb5bbfffc0b87871552a75f3c0402
 }
