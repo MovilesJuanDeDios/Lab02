@@ -1,4 +1,3 @@
-
 package AccesoDatos;
 
 import LogicaNegocio.Juego;
@@ -9,6 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import oracle.jdbc.internal.OracleTypes;
+
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
 
 public class ServicioJuego extends Servicio {
 
@@ -89,7 +96,7 @@ public class ServicioJuego extends Servicio {
         if (coleccion == null || coleccion.size() == 0) {
             throw new NoDataException("No hay datos");
         }
-       
+
         return coleccion;
     }
 
@@ -138,7 +145,7 @@ public class ServicioJuego extends Servicio {
         try {
             pstmt = cn.prepareStatement(ACTUALIZARJUEGO);
             pstmt.setString(1, juego.getCodigo());
-            
+
             boolean resultado = pstmt.execute();
 
             if (resultado == true) {

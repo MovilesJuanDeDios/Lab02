@@ -1,3 +1,10 @@
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
  
 connect system/manager as sysdba;
  

@@ -1,4 +1,3 @@
-
 package AccesoDatos;
 
 import LogicaNegocio.Ficha;
@@ -9,6 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import oracle.jdbc.internal.OracleTypes;
+
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
 
 public class ServicioFicha extends Servicio {
 
@@ -93,7 +100,7 @@ public class ServicioFicha extends Servicio {
         if (coleccion == null || coleccion.size() == 0) {
             throw new NoDataException("No hay datos");
         }
-       
+
         return coleccion;
     }
 
@@ -195,4 +202,3 @@ public class ServicioFicha extends Servicio {
         }
     }
 }
-

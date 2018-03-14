@@ -1,10 +1,21 @@
-
 package Vista;
 
 import javax.swing.JOptionPane;
 import ClientManager.GestorCliente;
 import LogicaNegocio.Juego;
 import LogicaNegocio.Jugador;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
 
 public class VentanaInicio extends javax.swing.JFrame {
 
@@ -13,7 +24,7 @@ public class VentanaInicio extends javax.swing.JFrame {
      */
     public VentanaInicio() {
         setTitle("Juego Domino");
-        setSize(750,400);
+        setSize(750, 400);
         setResizable(false);
         setLocationRelativeTo(null);
         initComponents();
@@ -133,9 +144,13 @@ public class VentanaInicio extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JOptionPane jop = new JOptionPane();
         String jugadores = jop.showInputDialog("Ingrese la cantidad de jugadores (Entre 2 y 4): ");
+        int nJug = 0;
+
         if (jugadores != null) {
-            if ("2".equals(jugadores) || "3".equals(jugadores) || "4".equals(jugadores)) {
-                int nJug = Integer.parseInt(jugadores);
+            if ("2".equals(jugadores) /*|| "3".equals(jugadores) || "4".equals(jugadores)*/) {
+                this.juego = new Juego();
+                ArrayList<Jugador> players = new ArrayList();
+                nJug = Integer.parseInt(jugadores);
                 JOptionPane jop2;
                 for (int i = 0; i < nJug; i++) {
                     jop2 = new JOptionPane();
@@ -143,22 +158,50 @@ public class VentanaInicio extends javax.swing.JFrame {
                     if (nomJugador == null) { // presiona cancelar
                         jop2.setVisible(false);
                     } else {
-                        Jugador jugador = new Jugador(nomJugador, 0);
-                        gc.jugadores.add(jugador);
+                        if (("".equals(nomJugador))) {
+                            JOptionPane.showMessageDialog(null, "¡Nombre no permitido!", "Error", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            Jugador jugador = new Jugador(nomJugador, 0); // crea el jugador que va a insertar
+                            try {
+                                gc.enviarJugador(jugador, "buscarJugador");
+                                Thread.sleep(2000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            Jugador j = gc.getJugador();
+                            System.out.println("Verificando jugadores" + j.getNickName());
+                            if (gc.getJugador().getNickName().equals("")) {
+                                JOptionPane.showMessageDialog(null, "¡Ese jugador no existe!", "Error", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            } else {
+                                players.add(jugador);
+                            }
+                        }
                     }
                 }
-                VentanaJuego venJ = new VentanaJuego(nJug, gc);
+
+                try {
+                    this.juego.setJugadores(players);
+                    gc.enviarJuego(juego, "nuevoJuego");
+                    Thread.sleep(4000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VentanaInicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                VentanaJuego venJ = new VentanaJuego(gc);
+                venJ.repartirFichas(nJug);
                 venJ.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "¡La cantidad de jugadores debe ser un numero entre 2 y 4!", "Error", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             jop.setVisible(false);
-        }    
+            return;
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
- 
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -178,7 +221,6 @@ public class VentanaInicio extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "¡Ese jugador ya existe!", "Error", JOptionPane.WARNING_MESSAGE);
                 }
             }
-
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -229,6 +271,6 @@ public class VentanaInicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
     private GestorCliente gc;
+    private Juego juego;
 
 }
-

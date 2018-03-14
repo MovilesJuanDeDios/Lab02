@@ -1,4 +1,3 @@
-
 package Server;
 
 import AccesoDatos.GlobalException;
@@ -15,30 +14,35 @@ import java.util.logging.*;
 
 /**
  *
- * @author casca
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
  */
 
 public class ServidorHilo extends Thread {
-    
+
     private Socket socket;
     private Socket socket2;
-  
+
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
 
-    public ServidorHilo(Socket socket,Socket socket2) {
+    private Juego juego;
+
+    public ServidorHilo(Socket socket, Socket socket2) {
         this.socket = socket;
         this.socket2 = socket2;
         try {
-           
+
             oos = new ObjectOutputStream(socket2.getOutputStream());
             ois = new ObjectInputStream(socket.getInputStream());
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void desconectar() {
         try {
             socket.close();
@@ -56,8 +60,8 @@ public class ServidorHilo extends Thread {
         try {
             object = ois.readObject();
             String className = object.getClass().getSimpleName();
-            switch(className) {
-                case "Jugador":  
+            switch (className) {
+                case "Jugador":
                     Jugador jugador = (Jugador) object;
                     ServicioJugador sj = new ServicioJugador();
                     switch (jugador.getAccion()) {
@@ -71,40 +75,39 @@ public class ServidorHilo extends Thread {
                             oos.writeObject(jugador);
                             break;
 
-                        case "buscarJugador":   
-                            //System.out.println(jugador.toString());
-                                Jugador jug2= sj.buscarJugador(jugador.getNickName());
-                                jug2.setAccion("buscarJugador");
-                                oos.writeObject(jug2);
-                            
-                                
-                            
+                        case "buscarJugador":
+                            Jugador jug2 = sj.buscarJugador(jugador.getNickName());
+                            jug2.setAccion("buscarJugador");
+                            oos.writeObject(jug2);
+
                             break;
                     }
-   
+
                     break;
-                
+
                 case "Ficha":
                     Ficha ficha = (Ficha) object;
-                break;
-                
+                    break;
+
                 case "Juego":
-                    System.out.println("Es juego");
                     Juego juego = (Juego) object;
-                    ServicioJuego sjuego = new ServicioJuego();
+                    //ServicioJuego sjuego = new ServicioJuego();
                     switch (juego.getAccion()) {
-                        case "insertar":
-                            sjuego.insertarJuego(juego);
-                            oos.writeObject(juego);
+                        case "nuevoJuego":
+                            //sjuego.insertarJuego(juego);
+                            this.juego = juego;
+                            this.juego.repartirFichas();
+                            oos.writeObject(this.juego);
                             break;
-                        case "buscar":
-                            sjuego.buscarJuego(juego.getCodigo());
-                            oos.writeObject(juego);
+                        case "retornarJuego":
+                            this.juego = juego;
+                            oos.writeObject(this.juego);
                             break;
+
                     }
                     break;
             }
-          
+
         } catch (IOException ex) {
             Logger.getLogger(ServidorHilo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

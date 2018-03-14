@@ -1,4 +1,3 @@
-
 package Vista;
 
 import java.awt.Color;
@@ -10,14 +9,24 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class PanelImagen extends JPanel{
-    public PanelImagen(){}
-    
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
+
+public class PanelImagen extends JPanel {
+
+    public PanelImagen() {
+    }
+
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setBackground(Color.white);
-        
+
         try {
             dibujarMesa(g);
         } catch (IOException ex) {

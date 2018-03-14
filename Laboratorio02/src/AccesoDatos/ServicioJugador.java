@@ -1,4 +1,3 @@
-
 package AccesoDatos;
 
 import LogicaNegocio.Ficha;
@@ -10,6 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import oracle.jdbc.internal.OracleTypes;
+
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
 
 public class ServicioJugador extends Servicio {
 
@@ -57,7 +64,7 @@ public class ServicioJugador extends Servicio {
             }
         }
     }
-    
+
     public Collection listarJugador() throws GlobalException, NoDataException, SQLException {
         connect();
 
@@ -95,7 +102,7 @@ public class ServicioJugador extends Servicio {
         if (coleccion == null || coleccion.size() == 0) {
             throw new NoDataException("No hay datos");
         }
-       
+
         return coleccion;
     }
 
@@ -113,7 +120,7 @@ public class ServicioJugador extends Servicio {
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
                 jugador = new Jugador(rs.getString("nickname"),
-                rs.getInt("puntos"));
+                        rs.getInt("puntos"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,7 +145,7 @@ public class ServicioJugador extends Servicio {
         System.out.print(jugador.toString());
         return jugador;
     }
-    
+
     public void actualizarJugador(Jugador jugador) throws GlobalException, NoDataException, SQLException {
         connect();
         PreparedStatement pstmt = null;
@@ -195,45 +202,45 @@ public class ServicioJugador extends Servicio {
             }
         }
     }
-    
-     public void insertarFichaJugador(Jugador jugador, Ficha ficha) throws GlobalException, NoDataException, SQLException {
-           connect();
-           CallableStatement pstmt = null;
 
-           try {
-               pstmt = cn.prepareCall(INSERTAFICHAJUGADOR);
-               pstmt.setString(1, jugador.getNickName());
-               pstmt.setInt(2, ficha.getTotal());
+    public void insertarFichaJugador(Jugador jugador, Ficha ficha) throws GlobalException, NoDataException, SQLException {
+        connect();
+        CallableStatement pstmt = null;
 
-               boolean resultado = pstmt.execute();
+        try {
+            pstmt = cn.prepareCall(INSERTAFICHAJUGADOR);
+            pstmt.setString(1, jugador.getNickName());
+            pstmt.setInt(2, ficha.getTotal());
 
-               if (resultado == true) {
-                   throw new NoDataException("No se realizo la inserción");
-               } else {
-                   System.out.println("\nInserción Satisfactoria!");
-               }
+            boolean resultado = pstmt.execute();
 
-           } catch (SQLException e) {
-               e.printStackTrace();
-               throw new GlobalException("Llave duplicada");
-           } finally {
-               try {
-                   if (pstmt != null) {
-                       pstmt.close();
-                   }
-                   disconnect();
-               } catch (SQLException e) {
-                   throw new GlobalException("Estatutos invalidos o nulos");
-               }
-           }
-      }
-    
+            if (resultado == true) {
+                throw new NoDataException("No se realizo la inserción");
+            } else {
+                System.out.println("\nInserción Satisfactoria!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new GlobalException("Llave duplicada");
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                disconnect();
+            } catch (SQLException e) {
+                throw new GlobalException("Estatutos invalidos o nulos");
+            }
+        }
+    }
+
     public ArrayList buscarFichaJugador(String nombre) throws GlobalException, NoDataException, SQLException {
         connect();
 
         ResultSet rs = null;
         ArrayList coleccion = new ArrayList();
-        int valor=0;
+        int valor = 0;
         CallableStatement pstmt = null;
         try {
             pstmt = cn.prepareCall(BUSCARFICHAJUGADOR);
@@ -242,7 +249,7 @@ public class ServicioJugador extends Servicio {
             pstmt.execute();
             rs = (ResultSet) pstmt.getObject(1);
             while (rs.next()) {
-                valor=rs.getInt("total");
+                valor = rs.getInt("total");
                 coleccion.add(valor);
             }
         } catch (SQLException e) {
@@ -267,8 +274,8 @@ public class ServicioJugador extends Servicio {
         }
         System.out.print(coleccion.toString());
         return coleccion;
-    }  
-    
+    }
+
     public void eliminarFichaJugador(String nombre) throws GlobalException, NoDataException, SQLException {
         connect();
         PreparedStatement pstmt = null;

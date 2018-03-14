@@ -1,9 +1,16 @@
-
 package AccesoDatos;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import oracle.jdbc.pool.OracleDataSource;
+
+/**
+ *
+ * @author 
+ * Andres Cascante Salas
+ * Jose Andres Slon Conejo
+ * Giancarlo Navarro Valverde
+ */
 
 public class Servicio {
 
